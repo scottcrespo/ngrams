@@ -88,7 +88,20 @@ public class Trigram implements WritableComparable {
         }
         
         return third.compareTo(other.third);
-
+    }
+    
+    public boolean equals(Object other) {
+        /* 
+        Return true if two instance of Trigram have the same contents
+        */
+        
+        // short circuit if other object is not instance of Trigram
+        if (!(other instanceof Trigram)) {
+            return false;
+        }
+        
+        return this.first == other.first && this.second == other.second
+            && this.third == other.third;
         
     }
     
