@@ -36,6 +36,19 @@ public class Trigram implements WritableComparable {
         this.third = third;
     }
     
+    public Text getFirst() {
+        return first;
+    }
+    
+    public Text getSecond() {
+        return second;
+    }
+    
+    public Text getThird() {
+        return third;
+    }
+    
+    @Override
     public String toString() {
         /* 
         Convert a Trigram instance to a string of comma 
@@ -46,6 +59,7 @@ public class Trigram implements WritableComparable {
                 Text.toString(third);
     }
     
+    @Override
     public void write(DataOutput out) throws IOException {
         /*
         Method to write out Trigram objects. 
@@ -57,6 +71,7 @@ public class Trigram implements WritableComparable {
         third.write(out);
     }
     
+    @Override
     public void readFields(DataInput in) throws IOException {
         /*
         Method to read in values.
@@ -69,6 +84,8 @@ public class Trigram implements WritableComparable {
         third.readFields(in);
     }
     
+    
+    @Override
     public int compareTo(Trigram other) {
         /*
         Method to perform a bytewise comparison of
@@ -90,22 +107,32 @@ public class Trigram implements WritableComparable {
         return third.compareTo(other.third);
     }
     
+    @Override
     public boolean equals(Object other) {
         /* 
-        Return true if two instance of Trigram have the same contents
+        Return true if two instance of Trigram have the same contents. This
+        helps us conform to Java's Object interface, however Hadoop MapReduce does
+        not use the equals method in performing MR jobs. 
         */
         
-        // short circuit if other object is not instance of Trigram
-        if (!(other instanceof Trigram)) {
+        if (!(other instanceof Trigram)) { // short circuit if not a Trigram
             return false;
         }
         
-        return this.first == other.first && this.second == other.second
-            && this.third == other.third;
+        return first.equals(other.first) && second.equals(other.second)
+            && third.equals(other.third);
         
     }
     
+    @Override
     public int hashCode() {
+        /*
+        The hashCode implementation should be stable, meaning it can be
+        computed consistently across various JVMs. 
         
+        In this case, multiply first.hashCode() by a prime, and sum the 
+        hashCodes of first, second, and third.
+        return first.hashCode()*163 + second.hashCode() + third.hashCode();
+        */
     }
 }
