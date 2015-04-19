@@ -27,7 +27,17 @@ public class TestTrigram {
         Trigram other = new Trigram(x,y,z);
         
         if (tg.compareTo(other) == 0) {
-            System.out.println("It worked");
+            System.out.println("PASS: Comparison of equal objects");
         }
+        
+        else {System.out.println("FAIL: Comparison of equal objects ");}
+        
+        Trigram other2 = new Trigram();
+            
+        if (tg.compareTo(other2) != 0) {
+            System.out.println("PASS: Comparison of non equal objects");
+        }
+        
+        else {System.out.println("FAIL: Comparison of non-equal objects");}
     }
 }
