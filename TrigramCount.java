@@ -15,14 +15,18 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class TrigramCount {
     
     public static class TrigramMapper 
-      extends Mapper<Object, Text, Text, IntWritable> {
+        extends Mapper<Object, Trigram, Text, Text, IntWritable> {
 
         private final static IntWritable one = new IntWritable(1);
-        private Text word = new Text();
+        private Text first = new Text();
+        private Text second = new Text();
+        private Text third = new Text();
 
         public void map(Object key, Text value, Context context
-                        ) throws IOException, InterruptedException {
+            ) throws IOException, InterruptedException {
+            
             StringTokenizer itr = new StringTokenizer(value.toString());
+            
             while (itr.hasMoreTokens()) {
                 word.set(itr.nextToken());
                 context.write(word, one);
