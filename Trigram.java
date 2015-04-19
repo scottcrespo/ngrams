@@ -57,8 +57,8 @@ public class Trigram implements WritableComparable<Trigram> {
         Convert a Trigram instance to a string of comma 
         separated values: "first, second, third"
         */
-        return first.toString() + ", " +
-                second.toString() + ", " +
+        return first.toString() + " " +
+                second.toString() + " " +
                 third.toString();
     }
     
@@ -146,4 +146,5 @@ public class Trigram implements WritableComparable<Trigram> {
         
         return first.hashCode() * 163 + second.hashCode() + third.hashCode();
     }
+
 }
