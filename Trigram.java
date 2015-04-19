@@ -12,7 +12,9 @@ public class Trigram implements WritableComparable {
     private Text third;
     
     public Trigram(Text first, Text second, Text third) {
-        /* constructor takes three Text objects */
+        /* 
+        Constructor takes three Text objects
+        */
         set(first,second,third);
     }
     
@@ -26,20 +28,34 @@ public class Trigram implements WritableComparable {
     }
     
     public void set(Text first, Text second, Text third) {
-        
+        /* 
+        Sets the three Trigram attributes
+        */
         this.first = first;
         this.second = second;
         this.third = third;
     }
     
     public void write(DataOutput out) throws IOException {
+        /*
+        Method to write out Trigram objects. Notice that hadoop's
+        Text class makes it easy via it's write() method!
+        */
         first.write(out);
         second.write(out);
         third.write(out);
     }
     
     public void readFields(DataInput in) throws IOException {
+        /*
+        Method to read in values.
         
+        Once again, Hadoop makes it easy to read in values via the 
+        Text class's readFields() method. 
+        */
+        first.readFields(in);
+        second.readFields(in);
+        third.readFields(in);
     }
     
     public int compareTo(Trigram tgram) {
