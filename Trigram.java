@@ -37,14 +37,17 @@ public class Trigram implements WritableComparable {
     }
     
     public Text getFirst() {
+        // getter
         return first;
     }
     
     public Text getSecond() {
+        // getter
         return second;
     }
     
     public Text getThird() {
+        // getter
         return third;
     }
     
@@ -127,12 +130,16 @@ public class Trigram implements WritableComparable {
     @Override
     public int hashCode() {
         /*
-        The hashCode implementation should be stable, meaning it can be
+        The hashCode() implementation should be stable - meaning it can be
         computed consistently across various JVMs. 
         
-        In this case, multiply first.hashCode() by a prime, and sum the 
-        hashCodes of first, second, and third.
+        In this case, multiply first.hashCode() by a prime and add the hashCodes
+        of second and third. This should sufficient to ensure the value is 
+        unique for a Trigram with a particular set of attributes.
+        
         return first.hashCode()*163 + second.hashCode() + third.hashCode();
         */
+        
+        return first.hashCode() * 163 + second.hashCode() + third.hashCode();
     }
 }
