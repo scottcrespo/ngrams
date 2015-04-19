@@ -36,10 +36,21 @@ public class Trigram implements WritableComparable {
         this.third = third;
     }
     
+    public String toString() {
+        /* 
+        Convert a Trigram instance to a string of comma 
+        separated values: "first, second, third"
+        */
+        return Text.toString(first) + ", " +
+                Text.toString(second) + ", " +
+                Text.toString(third);
+    }
+    
     public void write(DataOutput out) throws IOException {
         /*
-        Method to write out Trigram objects. Notice that hadoop's
-        Text class makes it easy via it's write() method!
+        Method to write out Trigram objects. 
+        Notice that hadoop's Text class makes it easy via it's 
+        write() method!
         */
         first.write(out);
         second.write(out);
@@ -58,7 +69,26 @@ public class Trigram implements WritableComparable {
         third.readFields(in);
     }
     
-    public int compareTo(Trigram tgram) {
+    public int compareTo(Trigram other) {
+        /*
+        Method to perform a bytewise comparison of
+        two instances of Trigram. Method returns a non-zero
+        integer value when two objects are not equal. 
+        */
+        int compared = first.compareTo(other.first);
+        
+        if (compared != 0) {
+            return compared;
+        }
+        
+        compared = second.compareTo(other.second);
+        
+        if (compared != 0) {
+            return compared;
+        }
+        
+        return third.compareTo(other.third);
+
         
     }
     
