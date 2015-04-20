@@ -26,13 +26,22 @@ public class TrigramCount {
             ) throws IOException, InterruptedException {
             
             String line = value.toString().toLowerCase();
-            line.replaceAll("[^a-z\\s]","");
+            line = line.replaceAll("[^a-z\\s]","");
             
             String[] words = line.split("\\s");
             int len = words.length;
             
             for(int i = 0; i < len; i++) {
-                    
+                
+                
+                /*
+                short lines tend to produce trigrams of # # #
+                this helps cut down on the phenomenon
+                */
+                if(len <= 1) {
+                    continue;
+                }
+                
                 if(i <= 1) { // if i is first or second
                     first.set("#");
                 }
