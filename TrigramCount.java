@@ -15,7 +15,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class TrigramCount {
     
     public static class TrigramMapper 
-        extends Mapper<Object, Trigram, Text, Text, IntWritable> {
+        extends Mapper<Object, Text, Trigram, IntWritable> {
 
         private final static IntWritable one = new IntWritable(1);
         private Text first = new Text();
@@ -25,10 +25,10 @@ public class TrigramCount {
         public void map(Object key, Text value, Context context
             ) throws IOException, InterruptedException {
             
-            String line = value.toString().lower();
-            line.replaceAll("[^a-z\s]","");
+            String line = value.toString().toLowerCase();
+            line.replaceAll("[^a-z\\s]","");
             
-            String[] words = line.split("\s");
+            String[] words = line.split("\\s");
             int len = words.length;
             
             for(int i = 0; i < len; i++) {
@@ -43,7 +43,7 @@ public class TrigramCount {
                 }
                 else {second.set(words[i+1]);}    
                 
-                if(i == len || i+1 == len) { // if i is next-to-last or last
+                if(i+1 == len || i+2 == len) { // if i is next-to-last or last
                     third.set("#");
                 } 
                 else {second.set(words[i+2]);}
@@ -51,7 +51,7 @@ public class TrigramCount {
                 Trigram trigram = new Trigram(first, second, third);
                 
                 context.write(trigram, one);                
-          }
+            }
         }
     }
     
