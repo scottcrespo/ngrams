@@ -119,15 +119,16 @@ public class Trigram implements WritableComparable<Trigram> {
         not use the equals method in performing MR jobs. 
         */
         
-        if (!(other instanceof Trigram)) { // short circuit if not a Trigram
-            return false;
+        if (other instanceof Trigram) { // short circuit if not a Trigram
+            // since we know other is a Trigram, explicitly cast it as such
+            Trigram trigram = (Trigram) other;
+
+            return first.equals(trigram.first) && second.equals(trigram.second)
+                && third.equals(trigram.third);
         }
+        return false;
         
-        // since we know other is a Trigram, explicitly cast it as such
-        Trigram trigram = (Trigram) other;
         
-        return first.equals(trigram.first) && second.equals(trigram.second)
-            && third.equals(trigram.third);
         
     }
     
@@ -141,7 +142,6 @@ public class Trigram implements WritableComparable<Trigram> {
         of second and third. This should sufficient to ensure the value is 
         unique for a Trigram with a particular set of attributes.
         
-        return first.hashCode()*163 + second.hashCode() + third.hashCode();
         */
         
         return first.hashCode() * 163 + second.hashCode() + third.hashCode();

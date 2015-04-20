@@ -17,6 +17,7 @@ public class TrigramCount {
         extends Mapper<Object, Text, Trigram, IntWritable> {
 
         private final static IntWritable one = new IntWritable(1);
+        private static Trigram trigram = new Trigram();
         private Text first = new Text();
         private Text second = new Text();
         private Text third = new Text();
@@ -48,8 +49,7 @@ public class TrigramCount {
                 second.set(words[i+1]);
                 third.set(words[i+2]);
                 
-                Trigram trigram = new Trigram(first, second, third);
-                
+                trigram.set(first, second, third);                
                 context.write(trigram, one);                
             }
         }
@@ -58,8 +58,8 @@ public class TrigramCount {
     public static class TrigramReducer
         extends Reducer<Trigram, IntWritable, Trigram, IntWritable> {
         
-        private IntWritable result = new IntWritable();    
-        
+        private IntWritable result = new IntWritable();
+            
         public void reduce(Trigram key, Iterable<IntWritable> values, Context context
             ) throws IOException, InterruptedException {
                         
@@ -68,8 +68,9 @@ public class TrigramCount {
             for(IntWritable value : values) {
                 sum += value.get();
             }
-                        
+            
             result.set(sum);                
+            
             context.write(key, result);
                         
         }
@@ -82,8 +83,9 @@ public class TrigramCount {
         
         job.setJarByClass(TrigramCount.class);
         job.setMapperClass(TrigramMapper.class);
-        // job.setCombinerClass(TrigramReducer.class);
+        
         job.setReducerClass(TrigramReducer.class);
+        job.setCombinerClass(TrigramReducer.class);
     
         job.setOutputKeyClass(Trigram.class);
         job.setOutputValueClass(IntWritable.class);
