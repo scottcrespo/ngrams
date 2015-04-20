@@ -33,7 +33,6 @@ public class TrigramCount {
             
             for(int i = 0; i < len; i++) {
                 
-                
                 /*
                 short lines tend to produce trigrams of # # #
                 this helps cut down on the phenomenon
