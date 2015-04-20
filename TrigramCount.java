@@ -55,6 +55,26 @@ public class TrigramCount {
         }
     }
     
+    public static class TrigramReducer
+        extends Reducer<Trigram, IntWritable, Trigram, IntWritable> {
+        
+        private IntWritable result = new IntWritable();    
+        
+        public void reduce(Trigram key, Iterable<IntWritable> values, Context context
+            ) throws IOException, InterruptedException {
+                        
+            int sum = 0;
+            
+            for(IntWritable value : values) {
+                sum += value.get();
+            }
+                        
+            result.set(sum);                
+            context.write(key, result);
+                        
+        }
+    }
+    
     public static void main(String args[]) throws Exception {
         
         Configuration conf = new Configuration();
@@ -62,8 +82,10 @@ public class TrigramCount {
         
         job.setJarByClass(TrigramCount.class);
         job.setMapperClass(TrigramMapper.class);
-        job.setNumReduceTasks(0);
-        job.setOutputKeyClass(Text.class);
+        // job.setCombinerClass(TrigramReducer.class);
+        job.setReducerClass(TrigramReducer.class);
+    
+        job.setOutputKeyClass(Trigram.class);
         job.setOutputValueClass(IntWritable.class);
         
         //definte inputs and outputs
