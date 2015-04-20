@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -25,36 +24,29 @@ public class TrigramCount {
         public void map(Object key, Text value, Context context
             ) throws IOException, InterruptedException {
             
-            String line = value.toString().toLowerCase();
-            line = line.replaceAll("[^a-z\\s]","");
+            // Create our string and list of words
             
-            String[] words = line.split("\\s");
-            int len = words.length;
+            String line = value.toString().toLowerCase();   // create string and lower case
             
-            for(int i = 0; i < len; i++) {
+            line = line.replaceAll("[^a-z\\s]","");         // remove bad non-word chars
+                    
+            String[] words = line.split("\\s");             // split line into list of words
+            
+            int len = words.length;                         // need the length for our loop condition
+            
+            for(int i = 0; i+2 < len; i++) {
                 
                 /*
-                short lines tend to produce trigrams of # # #
-                this helps cut down on the phenomenon
+                short lines lines to produce trigrams of # # #
+                such as when we have length of 5 (# # the # #).                
                 */
                 if(len <= 1) {
                     continue;
                 }
                 
-                if(i <= 1) { // if i is first or second
-                    first.set("#");
-                }
-                else {first.set(words[i]);}
-                
-                if(i==0 || i+1 == len) { // if i is first or last
-                    second.set("#");
-                }
-                else {second.set(words[i+1]);}    
-                
-                if(i+1 == len || i+2 == len) { // if i is next-to-last or last
-                    third.set("#");
-                } 
-                else {second.set(words[i+2]);}
+                first.set(words[i]);
+                second.set(words[i+1]);
+                third.set(words[i+2]);
                 
                 Trigram trigram = new Trigram(first, second, third);
                 
