@@ -25,11 +25,32 @@ public class TrigramCount {
         public void map(Object key, Text value, Context context
             ) throws IOException, InterruptedException {
             
-            StringTokenizer itr = new StringTokenizer(value.toString());
+            String line = value.toString().lower();
+            line.replaceAll("[^a-z\s]","");
             
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());
-                context.write(word, one);
+            String[] words = line.split("\s");
+            int len = words.length;
+            
+            for(int i = 0; i < len; i++) {
+                    
+                if(i <= 1) { // if i is first or second
+                    first.set("#");
+                }
+                else {first.set(words[i]);}
+                
+                if(i==0 || i+1 == len) { // if i is first or last
+                    second.set("#");
+                }
+                else {second.set(words[i+1]);}    
+                
+                if(i == len || i+1 == len) { // if i is next-to-last or last
+                    third.set("#");
+                } 
+                else {second.set(words[i+2]);}
+                
+                Trigram trigram = new Trigram(first, second, third);
+                
+                context.write(trigram, one);                
           }
         }
     }
