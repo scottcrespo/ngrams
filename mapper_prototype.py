@@ -8,7 +8,7 @@ def test_mapper():
     
     lines = [
             "the quick brown fox jumped over the lazy dog",
-            "the quick brown", "the quick", "the dog"
+            "the quick brown", "the quick", "the"
             ]
     
     for line in lines:
