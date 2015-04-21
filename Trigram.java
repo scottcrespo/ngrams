@@ -27,13 +27,13 @@ public class Trigram implements WritableComparable<Trigram> {
         set(empty, empty, empty);
     }
     
-    public void set(Text first, Text second, Text third) {
+    public void set(Text one, Text two, Text three) {
         /* 
         Sets the three Trigram attributes
         */
-        this.first = first;
-        this.second = second;
-        this.third = third;
+        this.first = one;
+        this.second = two;
+        this.third = three;
     }
     
     public Text getFirst() {
