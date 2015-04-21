@@ -10,7 +10,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-
 public class TrigramCount {
     
     public static class TrigramMapper 
@@ -49,16 +48,18 @@ public class TrigramCount {
                 second.set(words[i+1]);
                 third.set(words[i+2]);
                 
-                trigram.set(first, second, third);                
+                trigram.set(first, second, third);
+                
                 context.write(trigram, one);                
             }
         }
     }
     
     public static class TrigramReducer
-        extends Reducer<Trigram, IntWritable, Trigram, IntWritable> {
+        extends Reducer<Trigram, IntWritable, Text, IntWritable> {
         
         private IntWritable result = new IntWritable();
+        private Text outKey = new Text();
             
         public void reduce(Trigram key, Iterable<IntWritable> values, Context context
             ) throws IOException, InterruptedException {
@@ -70,26 +71,27 @@ public class TrigramCount {
             }
             
             result.set(sum);                
-            
-            context.write(key, result);
+            outKey.set(key.toString());
+            context.write(outKey, result);
                         
         }
     }
     
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "Trigram Count");
         
         job.setJarByClass(TrigramCount.class);
+        
         job.setMapperClass(TrigramMapper.class);
+        job.setMapOutputKeyClass(Trigram.class);
+        job.setMapOutputValueClass(IntWritable.class);
         
         job.setReducerClass(TrigramReducer.class);
-        job.setCombinerClass(TrigramReducer.class);
-    
-        job.setOutputKeyClass(Trigram.class);
+        //job.setCombinerClass(TrigramReducer.class);        
+        job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-        
         //definte inputs and outputs
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));

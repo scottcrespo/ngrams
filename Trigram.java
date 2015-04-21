@@ -109,6 +109,7 @@ public class Trigram implements WritableComparable<Trigram> {
         }
         
         return third.compareTo(other.third);
+
     }
     
     @Override
@@ -144,7 +145,7 @@ public class Trigram implements WritableComparable<Trigram> {
         
         */
         
-        return first.hashCode() * 163 + second.hashCode() + third.hashCode();
+        return first.hashCode()*163 + second.hashCode() + third.hashCode();
     }
 
 }
