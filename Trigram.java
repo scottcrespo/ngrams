@@ -22,9 +22,8 @@ public class Trigram implements WritableComparable<Trigram> {
         /* 
         Instantiation without params creates a trigram with
         three empty Text objects 
-        */
-        Text empty = new Text();
-        set(empty, empty, empty);
+        */        
+        set(new Text(), new Text(), new Text());
     }
     
     public void set(Text one, Text two, Text three) {

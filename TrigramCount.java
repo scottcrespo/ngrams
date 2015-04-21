@@ -21,7 +21,8 @@ public class TrigramCount {
         private Text first = new Text();
         private Text second = new Text();
         private Text third = new Text();
-
+        
+        @Override
         public void map(Object key, Text value, Context context
             ) throws IOException, InterruptedException {
             
@@ -60,7 +61,8 @@ public class TrigramCount {
         extends Reducer<Trigram, IntWritable, Trigram, IntWritable> {
         
         private IntWritable result = new IntWritable();
-            
+        
+        @Override
         public void reduce(Trigram key, Iterable<IntWritable> values, Context context
             ) throws IOException, InterruptedException {
                         
