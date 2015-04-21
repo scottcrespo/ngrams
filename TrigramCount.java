@@ -10,6 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+
 public class TrigramCount {
     
     public static class TrigramMapper 
@@ -56,10 +57,9 @@ public class TrigramCount {
     }
     
     public static class TrigramReducer
-        extends Reducer<Trigram, IntWritable, Text, IntWritable> {
+        extends Reducer<Trigram, IntWritable, Trigram, IntWritable> {
         
         private IntWritable result = new IntWritable();
-        private Text outKey = new Text();
             
         public void reduce(Trigram key, Iterable<IntWritable> values, Context context
             ) throws IOException, InterruptedException {
@@ -71,8 +71,8 @@ public class TrigramCount {
             }
             
             result.set(sum);                
-            outKey.set(key.toString());
-            context.write(outKey, result);
+            
+            context.write(key, result);
                         
         }
     }
@@ -89,9 +89,10 @@ public class TrigramCount {
         job.setMapOutputValueClass(IntWritable.class);
         
         job.setReducerClass(TrigramReducer.class);
-        //job.setCombinerClass(TrigramReducer.class);        
-        job.setOutputKeyClass(Text.class);
+        job.setCombinerClass(TrigramReducer.class);        
+        job.setOutputKeyClass(Trigram.class);
         job.setOutputValueClass(IntWritable.class);
+        
         //definte inputs and outputs
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
