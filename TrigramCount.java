@@ -69,7 +69,6 @@ public class TrigramCount {
             for(IntWritable value : values) {
                 sum += value.get();
             }
-            
             result.set(sum);                
             
             context.write(key, result);
