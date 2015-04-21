@@ -32,8 +32,8 @@ Assuming Hadoop is installed and configured properly:
 
 `cd` to the root project directory:
 
-javac ./*.java
-jar cf tgc.jar *.class
+`javac ./*.java`
+`jar cf tgc.jar *.class`
 
 
 ### Add local text file to HDFS as input
@@ -42,11 +42,11 @@ jar cf tgc.jar *.class
 
 ### Run the Job
 
-\<path to hadoop\> jar \<path to local jar\> \<ClassName\> \<path to hdfs input directory\> \<path to hdfs output directory\>
+`\<path to hadoop\> jar \<path to local jar\> \<ClassName\> \<path to hdfs input directory\> \<path to hdfs output directory\>`
 
-/path/to/bin/hadoop jar /path/to/local/jar/tgc.jar TrigramCount /path/to/hdfs/input /path/to/hdfs/output
+`/path/to/bin/hadoop jar /path/to/local/jar/tgc.jar TrigramCount /path/to/hdfs/input /path/to/hdfs/output`
 
 
 ### Read output from HDFS
 
-/path/to/bin/hdfs dfs -cat /path/to/output/part-r-00000
+`/path/to/bin/hdfs dfs -cat /path/to/output/part-r-00000`
