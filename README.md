@@ -42,7 +42,7 @@ Assuming Hadoop is installed and configured properly:
 
 ### Run the Job
 
-`\<path to hadoop\> jar \<path to local jar\> \<ClassName\> \<path to hdfs input directory\> \<path to hdfs output directory\>`
+`<path to hadoop> jar <path to local jar> <ClassName> <path to hdfs input directory> <path to hdfs output directory>`
 
 `/path/to/bin/hadoop jar /path/to/local/jar/tgc.jar TrigramCount /path/to/hdfs/input /path/to/hdfs/output`
 
