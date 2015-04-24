@@ -7,19 +7,19 @@ text/corpus.
 
 ## Modules
 
-[Trigram.java](/Trigram.java)
+[Trigram.java](./Trigram.java)
 A custom trigram datatype
 
-[TrigramCount.java](/TrigramCount.java)
+[TrigramCount.java](./TrigramCount.java)
 Map reduce program to count trigram instances in a corpus
 
-[compile.sh](/compile.sh)
+[compile.sh](./compile.sh)
 Simple bash script to compile java classes and create a jar (tgc.jar)
 
-[TrigramTest.java](/TrigramTest.java)
+[TrigramTest.java](./TrigramTest.java)
 Some basic unit tests for the Trigram data type
 
-[mapper_prototype.py](/mapper_prototype.py)
+[mapper_prototype.py](./mapper_prototype.py)
 Python prototype of a trigram mapper
 
 
